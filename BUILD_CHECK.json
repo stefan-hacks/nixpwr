@@ -1,0 +1,4 @@
+{
+  "returncode": null,
+  "note": "cargo/Cargo.lock unavailable; Nix build will generate dependencies from the lock file once present."
+}
