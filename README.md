@@ -1,23 +1,23 @@
-# powerctl
+# nixpwr
 
-`powerctl` is a NixOS-friendly Linux laptop power diagnostics CLI.
+`nixpwr` is a NixOS-friendly Linux laptop power diagnostics CLI.
 
 The design goal is **diagnose platform power behaviour rather than blindly tune CPU frequency**.
 
 ## Current MVP
 
 ```bash
-powerctl status
-powerctl diagnose
-powerctl inspect
-powerctl profile
-sudo powerctl profile set balanced
+nixpwr status
+nixpwr diagnose
+nixpwr inspect
+nixpwr profile
+sudo nixpwr profile set balanced
 ```
 
 Machine-readable output:
 
 ```bash
-powerctl --json status
+nixpwr --json status
 ```
 
 ## What it currently inspects
@@ -53,7 +53,7 @@ Install into a NixOS configuration:
 
 ```nix
 environment.systemPackages = [
-  inputs.powerctl.packages.${pkgs.system}.default
+  inputs.nixpwr.packages.${pkgs.system}.default
 ];
 ```
 
@@ -61,10 +61,10 @@ or import the module:
 
 ```nix
 imports = [
-  inputs.powerctl.nixosModules.default
+  inputs.nixpwr.nixosModules.default
 ];
 
-services.powerctl.enable = true;
+services.nixpwr.enable = true;
 ```
 
 ## Architecture
@@ -72,7 +72,7 @@ services.powerctl.enable = true;
 The intended long-term architecture is:
 
 ```text
-powerctl
+nixpwr
 ├── status       snapshot current platform state
 ├── diagnose     identify likely causes of drain
 ├── profile      declarative power policy
@@ -91,11 +91,11 @@ Future versions should add:
 - display refresh/VRR state
 - systemd inhibitor/wakeup analysis
 - historical sampling
-- `powerctl watch`
+- `nixpwr watch`
 - JSON schema for machine integration
 - NixOS hardware-specific policy modules
 - a privileged helper instead of requiring the whole CLI to run as root
 - battery health/cycle analysis
-- `powerctl report` for support bundles
+- `nixpwr report` for support bundles
 
 The important design principle is to keep **measurement separate from policy**. The tool should tell the user what is consuming power before changing anything.

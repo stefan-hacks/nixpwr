@@ -1,5 +1,5 @@
 {
-  description = "powerctl - Linux laptop power diagnostics and policy";
+  description = "nixpwr - Linux laptop power diagnostics and policy";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
 
@@ -10,7 +10,7 @@
     in {
       packages = forAllSystems (pkgs: {
         default = pkgs.rustPlatform.buildRustPackage {
-          pname = "powerctl";
+          pname = "nixpwr";
           version = "0.1.0";
           src = ./.;
           cargoLock.lockFile = ./Cargo.lock;
@@ -18,14 +18,14 @@
       });
 
       overlays.default = final: prev: {
-        powerctl = self.packages.${final.system}.default;
+        nixpwr = self.packages.${final.system}.default;
       };
 
       nixosModules.default = { config, lib, pkgs, ... }:
         with lib; {
-          options.services.powerctl.enable = mkEnableOption "powerctl diagnostics and policy service";
+          options.services.nixpwr.enable = mkEnableOption "nixpwr diagnostics and policy service";
 
-          config = mkIf config.services.powerctl.enable {
+          config = mkIf config.services.nixpwr.enable {
             environment.systemPackages = [ self.packages.${pkgs.system}.default ];
           };
         };

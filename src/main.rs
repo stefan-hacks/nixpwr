@@ -8,7 +8,7 @@ use std::{
 };
 
 #[derive(Parser, Debug)]
-#[command(name = "powerctl", version, about = "Linux laptop power diagnostics and policy")]
+#[command(name = "nixpwr", version, about = "Linux laptop power diagnostics and policy")]
 struct Cli {
     #[command(subcommand)]
     command: CommandKind,
@@ -155,7 +155,7 @@ fn print_status(json: bool) -> Result<()> {
         println!("{}", serde_json::to_string_pretty(&s)?);
         return Ok(());
     }
-    println!("powerctl status");
+    println!("nixpwr status");
     println!("────────────────────────────────────────");
     if let Some(b) = s.battery {
         println!("Battery       : {}%", b.capacity_percent.map_or("?".into(), |v| v.to_string()));
@@ -218,7 +218,7 @@ fn inspect() {
 
 fn diagnose() -> Result<()> {
     let s = status();
-    println!("powerctl diagnose");
+    println!("nixpwr diagnose");
     println!("────────────────────────────────────────");
     let mut findings = 0;
 
